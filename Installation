@@ -1,0 +1,52 @@
+#Instructions for installing nextstrain on a cc cluster (tested on narval)
+#Clone the ncov repository
+git clone https://github.com/nextstrain/ncov
+
+#create virtual environment called nextstrain
+module load python
+virtualenv --no-download nextstrain
+#activate the nextstrain environment
+source nextstrain/bin/activate
+
+#install nextstrain and dependencies
+pip install nextstrain-augur==13.0.0
+pip install epiweeks==2.1.2
+curl -fsSL "https://github.com/nextstrain/nextclade/releases/latest/download/nextalign-Linux-x86_64" -o "nextalign" && chmod +x nextalign
+git clone https://github.com/edluffy/pangolin
+cd pangolin
+pip3 install -r requirements.txt
+cd ../
+
+git clone https://github.com/cov-lineages/pangoLEARN.git
+cd pangoLEARN
+python setup.py install
+cd ../
+
+#the pre-installed treetime module doesn't work, so clone:
+git clone https://github.com/neherlab/treetime.git
+cd treetime
+pip install .
+cd ../
+
+pip install nextstrain-cli
+pip install boto3
+pip install snakemake
+pip install Bio
+pip install treetime
+pip install pyQt5
+
+#load cc modules
+module load gcc mafft iq-tree raxml fasttree vcftools scipy-stack
+
+#ensure that everything is in the path
+export PATH="/project/ctb-bourqueg-ab/genfs/projects/COVID_covarrnet/susanne_sandbox:$PATH"
+
+#check the setup
+nextstrain check-setup --set-default
+#the checkup will fail, but snakemake and augur should be listed as installed
+
+#test your installation, this test dataset should run through without any errors if everything is correctly installed
+cd ncov
+snakemake --profile my_profiles/getting_started/ -p
+
+
