@@ -12,11 +12,12 @@ source nextstrain/bin/activate
 pip install nextstrain-augur==13.0.0
 pip install epiweeks==2.1.2
 curl -fsSL "https://github.com/nextstrain/nextclade/releases/latest/download/nextalign-Linux-x86_64" -o "nextalign" && chmod +x nextalign
+#install Pangolin
 git clone https://github.com/edluffy/pangolin
 cd pangolin
 pip3 install -r requirements.txt
 cd ../
-
+#install PangoLEARN
 git clone https://github.com/cov-lineages/pangoLEARN.git
 cd pangoLEARN
 python setup.py install
@@ -28,12 +29,17 @@ cd treetime
 pip install .
 cd ../
 
+#install more dependancies:
 pip install nextstrain-cli
-pip install boto3
+pip install boto3 #get error that it had to uninstall botocor-1.23.24 and instead installs version 1.23.37 ontop
 pip install snakemake
-pip install Bio
-pip install treetime
-pip install pyQt5
+pip install Bio #get ERROR: nextstrain-augur 13.0.0 has requirement biopython<=1.76,>=1.67, but you'll have biopython 1.79+computecanada which is incompatible. 
+#but still installs successfully
+
+#didn't run these:
+pip install treetime #<- why do we need this? isn't it installed above?
+pip install pyQt5 #doesn't install, says requirements are already satisfied in lib/python3.8/site-packages in computecanada
+#note: pyQt5 installs above with pangolin
 
 #load cc modules
 module load gcc mafft iq-tree raxml fasttree vcftools scipy-stack
@@ -42,11 +48,15 @@ module load gcc mafft iq-tree raxml fasttree vcftools scipy-stack
 export PATH="/project/ctb-bourqueg-ab/genfs/projects/COVID_covarrnet/susanne_sandbox:$PATH"
 
 #check the setup
-nextstrain check-setup --set-default
+nextstrain check-setup --set-default 
 #the checkup will fail, but snakemake and augur should be listed as installed
 
 #test your installation, this test dataset should run through without any errors if everything is correctly installed
+#note: ensure that cc modules are loaded (e.g. needs iqTree) and also set path to the nextstrain folder where everything is installed
 cd ncov
 snakemake --profile my_profiles/getting_started/ -p
+
+#this last command should do a full run (make an alignment and build a divergence tree with iqTree and a time tree with TreeTime, results saved inside ncov folder)
+
 
 
