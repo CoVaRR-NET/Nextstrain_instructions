@@ -35,8 +35,11 @@ pip install boto3 #get error that it had to uninstall botocor-1.23.24 and instea
 pip install snakemake
 pip install Bio #get ERROR: nextstrain-augur 13.0.0 has requirement biopython<=1.76,>=1.67, but you'll have biopython 1.79+computecanada which is incompatible. 
 #but still installs successfully
+
+#didn't run these:
 pip install treetime #<- why do we need this? isn't it installed above?
 pip install pyQt5 #doesn't install, says requirements are already satisfied in lib/python3.8/site-packages in computecanada
+#note: pyQt5 installs above with pangolin
 
 #load cc modules
 module load gcc mafft iq-tree raxml fasttree vcftools scipy-stack
@@ -47,14 +50,13 @@ export PATH="/project/ctb-bourqueg-ab/genfs/projects/COVID_covarrnet/susanne_san
 #check the setup
 nextstrain check-setup --set-default 
 #the checkup will fail, but snakemake and augur should be listed as installed
-#Comment: this failed completely for me. I got "-bash: start_pipeline: pgrp pipe: too many open files" printed to infinity
-#another try also gave me the error "-bash:exec: echo: not found" 
-#Comment: restarted, loaded python, and activated nextstrain environment, then tried this check-setup command (without loading cc modules or setting the path) and it ran correctly
-
 
 #test your installation, this test dataset should run through without any errors if everything is correctly installed
 #note: ensure that cc modules are loaded (e.g. needs iqTree) and also set path to the nextstrain folder where everything is installed
 cd ncov
 snakemake --profile my_profiles/getting_started/ -p
+
+#this last command should do a full run (make an alignment and build a divergence tree with iqTree and a time tree with TreeTime, results saved inside ncov folder)
+
 
 
