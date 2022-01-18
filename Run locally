@@ -1,3 +1,20 @@
-#Instructions on how to run locally (without sending a job)
+#Instructions on how to run locally (without sending a job) in Narval folder
 
-#In folder where Nextstrain is installed run
+#copy your working folder that contains all files needed for the run, e.g. "ncov_test1", into /path/COVID_covarrnet/Nextstrain (where the environment is installed)
+
+#In the Nextstrain folder:
+
+#create virtual environment called nextstrain
+module load python
+virtualenv --no-download nextstrain
+#activate the nextstrain environment
+source nextstrain/bin/activate
+
+#load cc modules
+module load gcc mafft iq-tree raxml fasttree vcftools scipy-stack
+#ensure that everything is in the path
+export PATH="/path/Nextstrain:$PATH"
+
+#enter the run's folder to execute the run:
+cd ncov_test1
+snakemake --profile my_profiles/getting_started/ -p # <- change this
