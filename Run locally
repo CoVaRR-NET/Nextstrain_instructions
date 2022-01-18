@@ -17,4 +17,5 @@ export PATH="/path/Nextstrain:$PATH"
 
 #enter the run's folder to execute the run:
 cd ncov_test1
-snakemake --profile my_profiles/getting_started/ -p # <- change this
+#command to run nextstrain directly from yaml (i.e. not using command: nexstrain build .):
+snakemake --configfile builds.yaml --cores 4 -p 
