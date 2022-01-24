@@ -54,6 +54,7 @@ nextstrain check-setup --set-default
 #test your installation, this test dataset should run through without any errors if everything is correctly installed
 #note: ensure that cc modules are loaded (e.g. needs iqTree) and also set path to the nextstrain folder where everything is installed
 cd ncov
+#go into defaults and add row 'Wuhan/WIV04/2019' to file 'include.txt' to always include our reference
 snakemake --profile my_profiles/getting_started/ -p
 
 #this last command should do a full run (make an alignment and build a divergence tree with iqTree and a time tree with TreeTime, results saved inside ncov folder)
